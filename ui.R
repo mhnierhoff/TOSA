@@ -1,0 +1,237 @@
+################# ~~~~~~~~~~~~~~~~~ ######## ~~~~~~~~~~~~~~~~~ #################
+##                                                                            ##
+##                            Time on Site Analysis                           ##
+##                                                                            ##            
+##                    App & Code by Maximilian H. Nierhoff                    ##
+##                                                                            ##
+##                           http://nierhoff.info                             ##
+##                                                                            ##
+##         Live version of this app: https://nierhoff.shinyapps.io/TOSA       ##
+##                                                                            ##
+##         Github Repo for this app: https://github.com/mhnierhoff/TOSA       ##
+##                                                                            ##
+################# ~~~~~~~~~~~~~~~~~ ######## ~~~~~~~~~~~~~~~~~ #################
+
+suppressPackageStartupMessages(c(
+        library(shiny),
+        library(shinyIncubator),
+        library(zoo),
+        library(timeDate),
+        library(forecast),
+        library(knitr),
+        library(rmarkdown)))
+
+
+shinyUI(navbarPage("Time on Site Analysis", 
+                   
+                   theme = "customflatly.css",
+                   
+                   
+                   
+############################### ~~~~~~~~1~~~~~~~~ ##############################                   
+
+## NAVTAB 1 - Interactive Chart
+
+tabPanel("Overview",
+         
+         #tags$head(includeScript("./www/ga-tosa.js")),
+         
+         sidebarLayout(
+                 
+                 sidebarPanel(
+                         radioButtons(inputId = "tdmwc",
+                                      label = "Select an NPO website:",
+                                      choices = c("Greenpeace",
+                                                  "Amnesty International",
+                                                  "PETA", "RedCross",
+                                                  "Unicef"),
+                                      selected = "Greenpeace"),
+                         
+                         tags$hr(),
+                         
+                         sliderInput("minfreqWord", 
+                                     label = "Minimum frequency 
+                                                        of plotted words:",
+                                     min = 5, max = 25, value = 10),
+                         
+                         tags$hr(),
+                         
+                         sliderInput("maxfreqWord", 
+                                     "Maximum number 
+                                                        of plotted words:", 
+                                     min = 1,  max = 200,  value = 100),
+                         
+                         width = 3),
+                 
+                 mainPanel(
+                         
+                         plotOutput("wordPlot"),
+                         
+                         width = 6)
+         )
+),
+                   
+############################### ~~~~~~~~2~~~~~~~~ ##############################
+
+## NAVTAB 2 - Forecasting
+
+tabPanel("Forecasting",
+         
+         sidebarLayout(
+                 
+                 sidebarPanel(
+                         selectInput(inputId = "fcpage",
+                                     label = "Select an NPO website:",
+                                     choices = c("Greenpeace",
+                                                 "Amnesty International",
+                                                 "PETA", "RedCross",
+                                                 "Unicef"),
+                                     selected = "Greenpeace"),
+                         
+                         tags$hr(),
+                         
+                         selectInput(inputId = "model",
+                                     label = "Select a Forecasting model:",
+                                     choices = c("ARIMA", "ETS", "TBATS", 
+                                                 "StructTS", "Holt-Winters", 
+                                                 "Theta", "Cubic Spline",
+                                                 "Random Walk", "Naive",
+                                                 "Mean"),
+                                     selected = "ARIMA"),
+                         
+                         tags$hr(),
+                         
+                         numericInput("ahead", "Days to forecast ahead:", 30),
+                         
+                         width = 3),
+                 
+                 mainPanel(
+                         
+                         plotOutput("forecastPlot"),
+                         tags$strong(textOutput("forecastCaption"), 
+                                     align = "center"),
+                         tags$div("Historical Data: Alexa.com | Metric: 
+                                 Alexa Time on Site", align="center"),
+                         
+                         width = 6)
+                 
+         )
+),
+                   
+                   
+############################### ~~~~~~~~3~~~~~~~~ ##############################                   
+
+## NAVTAB 3 - Anomaly Detection
+
+tabPanel("Anomaly Detection",
+         
+         sidebarLayout(
+                 
+                 sidebarPanel(
+                         radioButtons(inputId = "tdmap",
+                                      label = "Select Twitter account:",
+                                      choices = c("Greenpeace",
+                                                  "Amnesty International",
+                                                  "PETA", "RedCross",
+                                                  "Unicef"),
+                                      selected = "Greenpeace"),
+                         
+                         tags$hr(),
+                         
+                         sliderInput("lowfreqAssoc", 
+                                     label = "Number of frequent terms:",
+                                     min = 10, max = 40, value = 20),
+                         
+                         width = 3),
+                 
+                 mainPanel(
+                         
+                         plotOutput("assocPlot"),
+                         
+                         width = 6)
+         )
+),
+                   
+############################### ~~~~~~~~4~~~~~~~~ ##############################
+                   
+## NAVTAB 4 - Decomposition
+
+tabPanel("Decomposition",
+         
+         sidebarLayout(
+                 
+                 sidebarPanel(
+                         radioButtons(inputId = "tdmtf",
+                                      label = "Select Twitter account:",
+                                      choices = c("Greenpeace",
+                                                  "Amnesty International",
+                                                  "PETA", "RedCross",
+                                                  "Unicef"),
+                                      selected = "Greenpeace"),
+                         
+                         tags$hr(),
+                         
+                         sliderInput("freqNumber", 
+                                     label = "Minimum frequency of terms:",
+                                     min = 10, max = 50, value = 15),
+                         
+                         width = 3),
+                 
+                 mainPanel(
+                         
+                         
+                         tabsetPanel(
+                                 
+                                 
+                                 tabPanel("Chart",
+                                          
+                                          
+                                          plotOutput("freqPlot")),
+                                 
+                                 
+                                 
+                                 tabPanel("Table",
+                                          
+                                          
+                                          dataTableOutput("freqTable"))
+                                 
+                         ),
+                         
+                         width = 6)
+                 
+         )
+         
+),
+                   
+############################### ~~~~~~~~A~~~~~~~~ ##############################
+                   
+## About
+
+tabPanel("About",
+         fluidRow(
+                 column(1,
+                        p("")),
+                 column(10,
+                        includeMarkdown("./about/about.md")),
+                 column(1,
+                        p(""))
+         )
+),
+
+############################### ~~~~~~~~F~~~~~~~~ ##############################
+                   
+## Footer
+                   
+tags$hr(),
+
+tags$span(style="color:grey", 
+          tags$footer(("2015 - Created by"), 
+                      tags$a(
+                              href="http://nierhoff.info",
+                              target="_blank",
+                              "Maximilian H. Nierhoff."), 
+                      align = "center")
+          
+)
+)
+)
