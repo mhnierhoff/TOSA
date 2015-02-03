@@ -15,6 +15,7 @@
 suppressPackageStartupMessages(c(
         library(shiny),
         library(shinyIncubator),
+        library(rCharts),
         library(zoo),
         library(timeDate),
         library(forecast),
@@ -32,14 +33,14 @@ shinyUI(navbarPage("Time on Site Analysis",
 
 ## NAVTAB 1 - Interactive Chart
 
-tabPanel("Overview",
+tabPanel("Overview - EDA",
          
          #tags$head(includeScript("./www/ga-tosa.js")),
          
          sidebarLayout(
                  
                  sidebarPanel(
-                         radioButtons(inputId = "tdmwc",
+                         radioButtons(inputId = "iplot",
                                       label = "Select an NPO website:",
                                       choices = c("Greenpeace",
                                                   "Amnesty International",
@@ -47,27 +48,19 @@ tabPanel("Overview",
                                                   "Unicef"),
                                       selected = "Greenpeace"),
                          
-                         tags$hr(),
-                         
-                         sliderInput("minfreqWord", 
-                                     label = "Minimum frequency 
-                                                        of plotted words:",
-                                     min = 5, max = 25, value = 10),
-                         
-                         tags$hr(),
-                         
-                         sliderInput("maxfreqWord", 
-                                     "Maximum number 
-                                                        of plotted words:", 
-                                     min = 1,  max = 200,  value = 100),
-                         
                          width = 3),
                  
                  mainPanel(
                          
-                         plotOutput("wordPlot"),
-                         
-                         width = 6)
+                         tabsetPanel(
+                                 tabPanel("EDA", 
+                                          plotOutput("interactivePlot")),
+                                 
+                                 tabPanel("Boxplot",
+                                          plotOutput("boxPlot"))
+                                               
+                         )
+                 )
          )
 ),
                    
@@ -80,7 +73,7 @@ tabPanel("Forecasting",
          sidebarLayout(
                  
                  sidebarPanel(
-                         selectInput(inputId = "fcpage",
+                         radioButtons(inputId = "fcpage",
                                      label = "Select an NPO website:",
                                      choices = c("Greenpeace",
                                                  "Amnesty International",

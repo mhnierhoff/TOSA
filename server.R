@@ -15,6 +15,7 @@
 suppressPackageStartupMessages(c(
         library(shiny),
         library(shinyIncubator),
+        library(rCharts),
         library(zoo),
         library(timeDate),
         library(forecast),
@@ -22,15 +23,68 @@ suppressPackageStartupMessages(c(
         library(rmarkdown)))
 
 
+options(RCHART_WIDTH = 500)
 
-source("data.R")
+#source("data.R")
 
 shinyServer(function(input, output, session) {
         
 ############################### ~~~~~~~~1~~~~~~~~ ##############################
         
 ## NAVTAB 1 - Interactive Chart
+
+## Tabset 1
+
+## Interactive plot creation
+        interactivePlotInput <- function() {
+                h1 <- hPlot(x = "Date",
+                            y= "",
+                        data = tos,
+                        type = "line")
+        }
+
+        output$interactivePlot <- renderChart2({
         
+                ##########    Adding a progress bar  ##########
+        
+                ## Create a Progress object
+        
+                progress <- shiny::Progress$new()
+        
+                on.exit(progress$close())
+        
+                progress$set(message = "Creating Plot", value = 0)
+        
+                n <- 10
+        
+                for (i in 1:n) {
+                        # Each time through the loop, add another row of data.
+                        # This is a stand-in for a long-running computation.
+                
+                        # Increment the progress bar, and update the detail text.
+                        progress$inc(1/n, detail = paste("Doing part", i))
+                
+                                interactivePlotInput()
+                
+                        # Pause for 0.1 seconds to simulate a long computation.
+                        Sys.sleep(0.1)
+                }
+        
+        })
+
+## Tabset 2
+
+## Boxplot plot creation
+        boxPlotInput <- function() {
+                boxplot(tos[2:6],
+                        main= "Time on Site per User",
+                        ylab= "Time on Site in seconds",
+                        col = c("chartreuse4", "yellow", "cadetblue3", "red", "cadetblue1"))
+        }
+
+        output$boxPlot <- renderPlot({
+                boxPlotInput()
+        })
         
         
         
@@ -39,7 +93,7 @@ shinyServer(function(input, output, session) {
 ## NAVTAB 2 - Forecasting
 
 ## Getting data
-getDataset <- reactive({
+getDataset2 <- reactive({
         switch(input$fcpage,
                "Greenpeace" = tosa[,2],
                "Amnesty International" = tosa[,3],
@@ -53,16 +107,16 @@ getDataset <- reactive({
 ## Creation of the Forecasting models
 getModel <- reactive({
         switch(input$model,
-               "ETS" = ets(getDataset()),
-               "ARIMA" = auto.arima(getDataset()),
-               "TBATS" = tbats(getDataset(), use.parallel=TRUE),
-               "StructTS" = StructTS(getDataset(), "level"),
-               "Holt-Winters" = HoltWinters(getDataset(), gamma=FALSE),
-               "Theta" = thetaf(getDataset()),
-               "Random Walk" = rwf(getDataset()),
-               "Naive" = naive(getDataset()),
-               "Mean" = meanf(getDataset()),
-               "Cubic Spline" = splinef(getDataset()))
+               "ETS" = ets(getDataset2()),
+               "ARIMA" = auto.arima(getDataset2()),
+               "TBATS" = tbats(getDataset2(), use.parallel=TRUE),
+               "StructTS" = StructTS(getDataset2(), "level"),
+               "Holt-Winters" = HoltWinters(getDataset2(), gamma=FALSE),
+               "Theta" = thetaf(getDataset2()),
+               "Random Walk" = rwf(getDataset2()),
+               "Naive" = naive(getDataset2()),
+               "Mean" = meanf(getDataset2()),
+               "Cubic Spline" = splinef(getDataset2()))
 })
 
 ## Caption creation

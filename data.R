@@ -12,15 +12,9 @@
 ##                                                                            ##
 ################# ~~~~~~~~~~~~~~~~~ ######## ~~~~~~~~~~~~~~~~~ #################
 
-suppressPackageStartupMessages(c(
-        library(shiny),
-        library(shinyIncubator),
-        library(zoo),
-        library(timeDate),
-        library(forecast),
-        library(knitr),
-        library(rmarkdown)))
-
+library(zoo)
+library(timeDate)
+library(forecast)
 
 dat <- read.csv("./data/tos.csv", 
                 header = TRUE,
