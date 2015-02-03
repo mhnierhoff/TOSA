@@ -15,12 +15,13 @@
 library(zoo)
 library(timeDate)
 library(forecast)
+library(lubridate)
 
 dat <- read.csv("./data/tos.csv", 
                 header = TRUE,
                 sep=";")
 
-tos <- na.omit(dat) 
+tos <- na.omit(dat)
 
 tosa <- ts(tos, start=c(2014, yday("2014-08-02")), frequency=365.3)
 

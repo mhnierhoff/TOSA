@@ -40,7 +40,7 @@ tabPanel("Overview - EDA",
          sidebarLayout(
                  
                  sidebarPanel(
-                         radioButtons(inputId = "iplot",
+                         radioButtons(inputId = "tabOne",
                                       label = "Select an NPO website:",
                                       choices = c("Greenpeace",
                                                   "Amnesty International",
@@ -57,10 +57,20 @@ tabPanel("Overview - EDA",
                                           plotOutput("interactivePlot")),
                                  
                                  tabPanel("Boxplot",
-                                          plotOutput("boxPlot"))
+                                          plotOutput("boxPlot"),
+                                          tags$hr(),
+                                          tags$div(textOutput("boxPlotCaption"), 
+                                                 align = "center")),
+                                 
+                                 tabPanel("Distribution",
+                                          plotOutput("histPlot")),
+                                 
+                                 tabPanel("Raw Data",
+                                          tags$br(),
+                                          dataTableOutput("dataTable"))
                                                
-                         )
-                 )
+                         ),
+                         width = 6)
          )
 ),
                    
@@ -73,7 +83,7 @@ tabPanel("Forecasting",
          sidebarLayout(
                  
                  sidebarPanel(
-                         radioButtons(inputId = "fcpage",
+                         radioButtons(inputId = "tabTwo",
                                      label = "Select an NPO website:",
                                      choices = c("Greenpeace",
                                                  "Amnesty International",

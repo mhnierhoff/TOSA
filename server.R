@@ -25,13 +25,22 @@ suppressPackageStartupMessages(c(
 
 options(RCHART_WIDTH = 500)
 
-#source("data.R")
+source("data.R")
 
 shinyServer(function(input, output, session) {
         
 ############################### ~~~~~~~~1~~~~~~~~ ##############################
         
 ## NAVTAB 1 - Interactive Chart
+
+getDataset1 <- reactive({
+        switch(input$tabOne,
+                "Greenpeace" = tos[,2],
+                "Amnesty International" = tos[,3],
+                "PETA" = tos[,4],
+                "RedCross" = tos[,5],
+                "Unicef" = tos[,6])
+})
 
 ## Tabset 1
 
@@ -75,18 +84,69 @@ shinyServer(function(input, output, session) {
 ## Tabset 2
 
 ## Boxplot plot creation
+
         boxPlotInput <- function() {
-                boxplot(tos[2:6],
-                        main= "Time on Site per User",
-                        ylab= "Time on Site in seconds",
-                        col = c("chartreuse4", "yellow", "cadetblue3", "red", "cadetblue1"))
+                boxplot(getDataset1(),
+                        main = "Time on Site per User",
+                        ylab = "Time on Site in seconds",
+                        xlab = input$tabOne)
         }
+
+        ## Caption creation
+        output$boxPlotCaption <- renderText({
+                paste("The time on site per user of the", 
+                      input$tabOne, "website.",
+                      "The median for this website is at", 
+                      median(getDataset1()), "seconds.")
+        })
 
         output$boxPlot <- renderPlot({
                 boxPlotInput()
         })
         
+## Tabset 3
+
+## Histogram creation
+
+        histPlotInput <- function() {
+                
+                histogramPlot <- hist(getDataset1())
+                multiplier <- histogramPlot$counts / histogramPlot$density
+                mydensity <- density(getDataset1())
+                mydensity$y <- mydensity$y * multiplier[1]
+                
+                plot(histogramPlot, 
+                     main = input$tabOne,
+                     xlab = "Time on Site in seconds")
+                lines(mydensity)
+                
+                myx <- seq(min(getDataset1()), max(getDataset1()), length.out= 100)
+                mymean <- mean(getDataset1())
+                mysd <- sd(getDataset1())
+                
+                normal <- dnorm(x = myx, mean = mymean, sd = mysd)
+                lines(myx, normal * multiplier[1], col = "blue", lwd = 2)
+                
+                sd_x <- seq(mymean - 3 * mysd, mymean + 3 * mysd, by = mysd)
+                sd_y <- dnorm(x = sd_x, mean = mymean, sd = mysd) * multiplier[1]
+                
+                segments(x0 = sd_x, y0= 0, x1 = sd_x, y1 = sd_y, col = "firebrick4", lwd = 2)
+        }
         
+        output$histPlot <- renderPlot({
+                histPlotInput()
+        })
+
+## Tabset 4
+
+## Generate an HTML table view of the data
+        
+        output$dataTable <- renderDataTable({
+                tos
+        })
+                
+        
+
         
 ############################### ~~~~~~~~2~~~~~~~~ ##############################
         
@@ -94,7 +154,7 @@ shinyServer(function(input, output, session) {
 
 ## Getting data
 getDataset2 <- reactive({
-        switch(input$fcpage,
+        switch(input$tabTwo,
                "Greenpeace" = tosa[,2],
                "Amnesty International" = tosa[,3],
                "PETA" = tosa[,4],
@@ -121,7 +181,7 @@ getModel <- reactive({
 
 ## Caption creation
 output$forecastCaption <- renderText({
-        paste("The time on site per user of", input$fcpage, "with the", 
+        paste("The time on site per user of", input$tabTwo, "with the", 
               input$model, "Forecasting model.")
 })
 
