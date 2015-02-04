@@ -20,6 +20,7 @@ suppressPackageStartupMessages(c(
         library(timeDate),
         library(forecast),
         library(knitr),
+        library(xts),
         library(rmarkdown)))
 
 
@@ -168,19 +169,13 @@ tabPanel("Decomposition",
          sidebarLayout(
                  
                  sidebarPanel(
-                         radioButtons(inputId = "tdmtf",
+                         radioButtons(inputId = "tabThree",
                                       label = "Select Twitter account:",
                                       choices = c("Greenpeace",
                                                   "Amnesty International",
                                                   "PETA", "RedCross",
                                                   "Unicef"),
                                       selected = "Greenpeace"),
-                         
-                         tags$hr(),
-                         
-                         sliderInput("freqNumber", 
-                                     label = "Minimum frequency of terms:",
-                                     min = 10, max = 50, value = 15),
                          
                          width = 3),
                  
@@ -189,18 +184,19 @@ tabPanel("Decomposition",
                          
                          tabsetPanel(
                                  
-                                 
-                                 tabPanel("Chart",
+                                 tabPanel("Normal Timeseries Decomposition",
                                           
-                                          
-                                          plotOutput("freqPlot")),
+                                          plotOutput("Ndcomp"),
+                                          tags$div(textOutput("NTScaption"),
+                                                   align = "center")),
                                  
-                                 
-                                 
-                                 tabPanel("Table",
-                                          
-                                          
-                                          dataTableOutput("freqTable"))
+                                 tabPanel("STL Decomposition",
+                                          tags$br(),
+                                          tags$div(strong("STL Decomposition"), 
+                                                   align ="center"),
+                                          plotOutput("STLdcomp"),
+                                          tags$div(textOutput("STLcaption"),
+                                                   align = "center"))
                                  
                          ),
                          

@@ -20,10 +20,9 @@ suppressPackageStartupMessages(c(
         library(timeDate),
         library(forecast),
         library(knitr),
+        library(xts),
         library(rmarkdown)))
 
-
-options(RCHART_WIDTH = 500)
 
 source("data.R")
 
@@ -44,13 +43,10 @@ getDataset1 <- reactive({
 
 ## Tabset 1
 
-## Line chart creation
+## Line chart function
 
         linePlotInput <- function() {
-                matplot(getDataset1(),
-                     main = input$tabOne,
-                     ylab = "Time on Site in seconds",
-                     type = "line")
+                plot.xts(tos, auto.legend = TRUE)
         }
 
         output$linePlot <- renderPlot({
@@ -59,8 +55,8 @@ getDataset1 <- reactive({
 
 
         clinePlotInput <- function() {
-                date <- as.numeric(tos$Date)
-                matplot(tos[2:6],
+                tos$Date <- as.Date(tos$Date, "%d.%m.%y")
+                matplot(tos[2:6],tos$Date, 
                         type = "l")
         }
 
@@ -70,7 +66,7 @@ getDataset1 <- reactive({
 
 ## Tabset 2
 
-## Boxplot plot creation
+## Boxplot plot function
 
         boxPlotInput <- function() {
                 boxplot(getDataset1(),
@@ -79,7 +75,7 @@ getDataset1 <- reactive({
                         col = "mintcream")
         }
 
-        ## Caption creation
+        ## Caption function
         output$boxPlotCaption <- renderText({
                 paste("The time on site per user of the", 
                       input$tabOne, "website.",
@@ -101,7 +97,7 @@ getDataset1 <- reactive({
         
 ## Tabset 3
 
-## Histogram creation
+## Histogram function
 
         histPlotInput <- function() {
                 
@@ -132,7 +128,7 @@ getDataset1 <- reactive({
                          col = "firebrick4", lwd = 2)
         }
                 
-        ## Caption creation
+        ## Caption function
         output$histPlotCaption <- renderText({
                 paste("The time on site histogram for the", 
                 input$tabOne, "website.",
@@ -173,7 +169,7 @@ getDataset2 <- reactive({
 })
 
 
-## Creation of the Forecasting models
+## function of the Forecasting models
 getModel <- reactive({
         switch(input$model,
                "ETS" = ets(getDataset2()),
@@ -188,13 +184,13 @@ getModel <- reactive({
                "Cubic Spline" = splinef(getDataset2()))
 })
 
-## Caption creation
+## Caption function
 output$forecastCaption <- renderText({
         paste("The time on site per user of", input$tabTwo, "with the", 
               input$model, "Forecasting model.")
 })
 
-## Model plot creation
+## Model plot function
 forecastPlotInput <- function() {
         x <- forecast(getModel(), h=input$ahead)
         
@@ -241,6 +237,65 @@ output$forecastPlot <- renderPlot({
         
 ## NAVTAB 3 - Anomaly Detection
         
+## Getting data
+getDataset3 <- reactive({
+        switch(input$tabThree,
+               "Greenpeace" = tosa[,2],
+               "Amnesty International" = tosa[,3],
+               "PETA" = tosa[,4],
+               "RedCross" = tosa[,5],
+               "Unicef" = tosa[,6])
+        
+})
+
+## Tabset 1
+
+## STL Timeseries Decomposition Plot         
+
+## Plot function
+        plotSTLdcomp <- function() {
+                ds_ts <- ts(getDataset3(), frequency=12)
+                STLdcomp <- stl(ds_ts, s.window="periodic", robust=TRUE)
+                plot(STLdcomp)
+        }
+
+        ## STL Caption
+
+        output$STLcaption <- renderText({
+                paste("The data of the", input$tabThree, 
+              "website decomposed into seasonal, trend and irregular components 
+              using loess (acronym STL).")
+        })
+
+        ## Printing the plot
+
+        output$STLdcomp <- renderPlot({
+                plotSTLdcomp()
+        })
+
+## Normal Timeseries Decomposition Plot    
+
+        plotNdcomp <- function() {
+                ds_ts <- ts(getDataset3(), frequency=12)
+                Ndcomp <- decompose(ds_ts)
+                plot(Ndcomp)
+        }
+
+        ## Normal TS DC Plot Caption
+        
+        output$NTScaption <- renderText({
+                paste("The data of the", input$tabThree, 
+                      "website decomposed into seasonal, trend and irregular 
+                      components using moving averages. The additive model 
+                      uses the following formula: Y[t] = T[t] + S[t] + e[t]")
+        })
+        
+        ## Printing the plot
+
+        output$Ndcomp <- renderPlot({
+                plotNdcomp()
+        })
+
         
 ############################### ~~~~~~~~4~~~~~~~~ ##############################
         

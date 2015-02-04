@@ -19,7 +19,8 @@ library(lubridate)
 
 dat <- read.csv("./data/tos.csv", 
                 header = TRUE,
-                sep=";")
+                sep=";",
+                encoding = "UTF-8")
 
 tos <- na.omit(dat)
 
