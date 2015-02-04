@@ -46,7 +46,15 @@ getDataset1 <- reactive({
 ## Line chart function
 
         linePlotInput <- function() {
-                plot.xts(tos, auto.legend = TRUE)
+                tos$Date <- as.Date(tos$Date, "%d.%m.%y")
+                lineDF <- data.frame(tos$Date, getDataset1())
+                plot(lineDF, 
+                     type = "l",
+                     main = input$tabOne,
+                     ylab = "Time on Site in seconds",
+                     xlab = "",
+                     lwd = 1.5,
+                     col = "midnightblue")
         }
 
         output$linePlot <- renderPlot({
@@ -55,9 +63,8 @@ getDataset1 <- reactive({
 
 
         clinePlotInput <- function() {
-                tos$Date <- as.Date(tos$Date, "%d.%m.%y")
-                matplot(tos[2:6],tos$Date, 
-                        type = "l")
+                tos$Date <- as.Date(as.character(tos$Date), "%d.%m.%y")
+                plot(tos[2:6], type = "line")
         }
 
         output$clinePlot <- renderPlot({
@@ -110,6 +117,7 @@ getDataset1 <- reactive({
                      main = input$tabOne,
                      xlab = "Time on Site in seconds",
                      col = "mintcream")
+                box()
                 lines(mydensity)
                 
                 myx <- seq(min(getDataset1()), max(getDataset1()), 
@@ -118,7 +126,8 @@ getDataset1 <- reactive({
                 mysd <- sd(getDataset1())
                 
                 normal <- dnorm(x = myx, mean = mymean, sd = mysd)
-                lines(myx, normal * multiplier[1], col = "blue", lwd = 2)
+                lines(myx, normal * multiplier[1], 
+                      col = "midnightblue", lwd = 2)
                 
                 sd_x <- seq(mymean - 3 * mysd, mymean + 3 * mysd, by = mysd)
                 sd_y <- dnorm(x = sd_x, mean = mymean, 
@@ -190,7 +199,7 @@ output$forecastCaption <- renderText({
               input$model, "Forecasting model.")
 })
 
-## Model plot function
+## Forecast model plot function
 forecastPlotInput <- function() {
         x <- forecast(getModel(), h=input$ahead)
         
@@ -201,6 +210,7 @@ forecastPlotInput <- function() {
              labels = format(a, format = "%d/%m/%Y"), 
              cex.axis = 0.9)
         axis(2, cex.axis = 0.9, las = 2)
+        box()
 }
 
 
@@ -247,6 +257,13 @@ getDataset3 <- reactive({
                "Unicef" = tosa[,6])
         
 })
+
+
+## Anomaly detection function 
+        adPlotInput <- function() {
+                tos$Date <- as.Date(as.character(tos$Date), "%d.%m.%y")
+                newDF <- data.frame(tos$Date, getDataset3())
+        }
 
 
 

@@ -54,7 +54,7 @@ tabPanel("Overview",
                  mainPanel(
                          
                          tabsetPanel(
-                                 tabPanel("Linechart", 
+                                 tabPanel("Line Chart", 
                                           plotOutput("linePlot"),
                                           tags$hr(),
                                           plotOutput("clinePlot")),
