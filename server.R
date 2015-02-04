@@ -248,13 +248,56 @@ getDataset3 <- reactive({
         
 })
 
+
+
+        
+############################### ~~~~~~~~4~~~~~~~~ ##############################
+        
+## NAVTAB 4 - Decomposition
+
+## Getting data
+getDataset4 <- reactive({
+        switch(input$tabThree,
+               "Greenpeace" = tosa[,2],
+               "Amnesty International" = tosa[,3],
+               "PETA" = tosa[,4],
+               "RedCross" = tosa[,5],
+               "Unicef" = tosa[,6])
+        
+})
+
 ## Tabset 1
+
+## Normal Timeseries Decomposition Plot    
+
+        plotNdcomp <- function() {
+                ds_ts <- ts(getDataset4(), frequency=12)
+                Ndcomp <- decompose(ds_ts)
+                plot(Ndcomp)
+        }
+
+        ## Normal TS DC Plot Caption
+
+        output$NTScaption <- renderText({
+                paste("The data of the", input$tabThree, 
+                      "website decomposed into seasonal, trend and irregular 
+                      components using moving averages. The additive model 
+                      uses the following formula: Y[t] = T[t] + S[t] + e[t]")
+        })
+
+        ## Printing the plot
+
+        output$Ndcomp <- renderPlot({
+                plotNdcomp()
+        })
+
+## Tabset 2
 
 ## STL Timeseries Decomposition Plot         
 
-## Plot function
+        ## Plot function
         plotSTLdcomp <- function() {
-                ds_ts <- ts(getDataset3(), frequency=12)
+                ds_ts <- ts(getDataset4(), frequency=12)
                 STLdcomp <- stl(ds_ts, s.window="periodic", robust=TRUE)
                 plot(STLdcomp)
         }
@@ -263,8 +306,8 @@ getDataset3 <- reactive({
 
         output$STLcaption <- renderText({
                 paste("The data of the", input$tabThree, 
-              "website decomposed into seasonal, trend and irregular components 
-              using loess (acronym STL).")
+                      "website decomposed into seasonal, trend and irregular 
+                      components using loess (acronym STL).")
         })
 
         ## Printing the plot
@@ -272,36 +315,7 @@ getDataset3 <- reactive({
         output$STLdcomp <- renderPlot({
                 plotSTLdcomp()
         })
-
-## Normal Timeseries Decomposition Plot    
-
-        plotNdcomp <- function() {
-                ds_ts <- ts(getDataset3(), frequency=12)
-                Ndcomp <- decompose(ds_ts)
-                plot(Ndcomp)
-        }
-
-        ## Normal TS DC Plot Caption
-        
-        output$NTScaption <- renderText({
-                paste("The data of the", input$tabThree, 
-                      "website decomposed into seasonal, trend and irregular 
-                      components using moving averages. The additive model 
-                      uses the following formula: Y[t] = T[t] + S[t] + e[t]")
-        })
-        
-        ## Printing the plot
-
-        output$Ndcomp <- renderPlot({
-                plotNdcomp()
-        })
-
-        
-############################### ~~~~~~~~4~~~~~~~~ ##############################
-        
-## NAVTAB 4 - Decomposition
-
-        
+   
 ############################### ~~~~~~~~F~~~~~~~~ ##############################
 
 ## Footer

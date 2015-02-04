@@ -185,7 +185,7 @@ tabPanel("Decomposition",
                          tabsetPanel(
                                  
                                  tabPanel("Normal Timeseries Decomposition",
-                                          
+                                          tags$br(),
                                           plotOutput("Ndcomp"),
                                           tags$div(textOutput("NTScaption"),
                                                    align = "center")),
