@@ -35,50 +35,37 @@ shinyServer(function(input, output, session) {
 
 getDataset1 <- reactive({
         switch(input$tabOne,
-                "Greenpeace" = tos[,2],
-                "Amnesty International" = tos[,3],
-                "PETA" = tos[,4],
-                "RedCross" = tos[,5],
-                "Unicef" = tos[,6])
+               "Greenpeace" = tos[,2],
+               "Amnesty International" = tos[,3],
+               "PETA" = tos[,4],
+               "RedCross" = tos[,5],
+               "Unicef" = tos[,6])
 })
 
 ## Tabset 1
 
-## Interactive plot creation
-        interactivePlotInput <- function() {
-                h1 <- hPlot(x = "Date",
-                            y= "",
-                        data = tos,
-                        type = "line")
+## Line chart creation
+
+        linePlotInput <- function() {
+                matplot(getDataset1(),
+                     main = input$tabOne,
+                     ylab = "Time on Site in seconds",
+                     type = "line")
         }
 
-        output$interactivePlot <- renderChart2({
-        
-                ##########    Adding a progress bar  ##########
-        
-                ## Create a Progress object
-        
-                progress <- shiny::Progress$new()
-        
-                on.exit(progress$close())
-        
-                progress$set(message = "Creating Plot", value = 0)
-        
-                n <- 10
-        
-                for (i in 1:n) {
-                        # Each time through the loop, add another row of data.
-                        # This is a stand-in for a long-running computation.
-                
-                        # Increment the progress bar, and update the detail text.
-                        progress$inc(1/n, detail = paste("Doing part", i))
-                
-                                interactivePlotInput()
-                
-                        # Pause for 0.1 seconds to simulate a long computation.
-                        Sys.sleep(0.1)
-                }
-        
+        output$linePlot <- renderPlot({
+                linePlotInput()
+        })
+
+
+        clinePlotInput <- function() {
+                date <- as.numeric(tos$Date)
+                matplot(tos[2:6],
+                        type = "l")
+        }
+
+        output$clinePlot <- renderPlot({
+                clinePlotInput()
         })
 
 ## Tabset 2
@@ -87,9 +74,9 @@ getDataset1 <- reactive({
 
         boxPlotInput <- function() {
                 boxplot(getDataset1(),
-                        main = "Time on Site per User",
+                        main = input$tabOne,
                         ylab = "Time on Site in seconds",
-                        xlab = input$tabOne)
+                        col = "mintcream")
         }
 
         ## Caption creation
@@ -102,6 +89,14 @@ getDataset1 <- reactive({
 
         output$boxPlot <- renderPlot({
                 boxPlotInput()
+        })
+
+        output$cboxPlot <- renderPlot({
+                boxplot(tos[2:6],
+                        main = "All pages in comparison",
+                        ylab = "Time on Site in seconds",
+                        col = c("chartreuse4", "yellow", "cadetblue3", 
+                                "red", "cadetblue1"))
         })
         
 ## Tabset 3
@@ -117,10 +112,12 @@ getDataset1 <- reactive({
                 
                 plot(histogramPlot, 
                      main = input$tabOne,
-                     xlab = "Time on Site in seconds")
+                     xlab = "Time on Site in seconds",
+                     col = "mintcream")
                 lines(mydensity)
                 
-                myx <- seq(min(getDataset1()), max(getDataset1()), length.out= 100)
+                myx <- seq(min(getDataset1()), max(getDataset1()), 
+                           length.out= 100)
                 mymean <- mean(getDataset1())
                 mysd <- sd(getDataset1())
                 
@@ -128,10 +125,22 @@ getDataset1 <- reactive({
                 lines(myx, normal * multiplier[1], col = "blue", lwd = 2)
                 
                 sd_x <- seq(mymean - 3 * mysd, mymean + 3 * mysd, by = mysd)
-                sd_y <- dnorm(x = sd_x, mean = mymean, sd = mysd) * multiplier[1]
+                sd_y <- dnorm(x = sd_x, mean = mymean, 
+                              sd = mysd) * multiplier[1]
                 
-                segments(x0 = sd_x, y0= 0, x1 = sd_x, y1 = sd_y, col = "firebrick4", lwd = 2)
+                segments(x0 = sd_x, y0= 0, x1 = sd_x, y1 = sd_y, 
+                         col = "firebrick4", lwd = 2)
         }
+                
+        ## Caption creation
+        output$histPlotCaption <- renderText({
+                paste("The time on site histogram for the", 
+                input$tabOne, "website.",
+                "The mean for this website is at", 
+                round(mean(getDataset1()), digits = 2),
+                "seconds and the standard deviation is",
+                round(sd(getDataset1()), digits = 2),".")
+        })
         
         output$histPlot <- renderPlot({
                 histPlotInput()
@@ -236,6 +245,16 @@ output$forecastPlot <- renderPlot({
 ############################### ~~~~~~~~4~~~~~~~~ ##############################
         
 ## NAVTAB 4 - Decomposition
+
         
-        
+############################### ~~~~~~~~F~~~~~~~~ ##############################
+
+## Footer
+
+output$dataPeriodCaption <- renderText({
+        paste("Data period from", 
+              head(tos[,1], n = 1), "to",
+              tail(tos[,1], n = 1),".")
+        })
+
 })

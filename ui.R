@@ -33,7 +33,7 @@ shinyUI(navbarPage("Time on Site Analysis",
 
 ## NAVTAB 1 - Interactive Chart
 
-tabPanel("Overview - EDA",
+tabPanel("Overview",
          
          #tags$head(includeScript("./www/ga-tosa.js")),
          
@@ -53,17 +53,23 @@ tabPanel("Overview - EDA",
                  mainPanel(
                          
                          tabsetPanel(
-                                 tabPanel("EDA", 
-                                          plotOutput("interactivePlot")),
+                                 tabPanel("Linechart", 
+                                          plotOutput("linePlot"),
+                                          tags$hr(),
+                                          plotOutput("clinePlot")),
                                  
                                  tabPanel("Boxplot",
                                           plotOutput("boxPlot"),
-                                          tags$hr(),
                                           tags$div(textOutput("boxPlotCaption"), 
-                                                 align = "center")),
+                                                 align = "center"),
+                                          tags$hr(),
+                                          plotOutput("cboxPlot")),
                                  
-                                 tabPanel("Distribution",
-                                          plotOutput("histPlot")),
+                                 tabPanel("Histogram",
+                                          plotOutput("histPlot"),
+                                          tags$hr(),
+                                          tags$div(textOutput("histPlotCaption"), 
+                                                  align = "center")),
                                  
                                  tabPanel("Raw Data",
                                           tags$br(),
@@ -113,8 +119,6 @@ tabPanel("Forecasting",
                          plotOutput("forecastPlot"),
                          tags$strong(textOutput("forecastCaption"), 
                                      align = "center"),
-                         tags$div("Historical Data: Alexa.com | Metric: 
-                                 Alexa Time on Site", align="center"),
                          
                          width = 6)
                  
@@ -227,6 +231,18 @@ tabPanel("About",
                    
 tags$hr(),
 
+tags$span(style="color:darkslategrey", 
+          tags$div(textOutput("dataPeriodCaption"), 
+                        align = "center")
+         ),
+
+tags$span(style="color:darkslategrey", 
+          tags$div("Data source: Alexa.com | Metric: Alexa Time on Site", 
+                   align="center")
+        ),
+
+tags$br(),
+
 tags$span(style="color:grey", 
           tags$footer(("2015 - Created by"), 
                       tags$a(
@@ -235,6 +251,6 @@ tags$span(style="color:grey",
                               "Maximilian H. Nierhoff."), 
                       align = "center")
           
-)
+        )
 )
 )
