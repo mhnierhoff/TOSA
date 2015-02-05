@@ -72,6 +72,8 @@ getDataset1 <- reactive({
 
         clinePlotInput <- function() {
                 mpdf <- data.frame(tos[2:6])
+                colnames(mpdf) <- c("Greenpeace", "Amnesty", 
+                                    "PETA", "RedCross", "Unicef")
                 legNames <- names(mpdf)
                 customCol <- brewer.pal(n = 5, name = "Dark2")
                 matplot(mpdf, 
@@ -82,7 +84,7 @@ getDataset1 <- reactive({
                         ylab = "Time on Site in seconds",
                         col = customCol,
                         xaxt = "n")
-                legend("topleft", legNames, lty = 0, text.col = customCol)
+                legend("topleft", legNames, lty = 0,text.col = customCol)
         }
 
         output$clinePlot <- renderPlot({
@@ -114,7 +116,10 @@ getDataset1 <- reactive({
 
         output$cboxPlot <- renderPlot({
                 customCol <- brewer.pal(n = 5, name = "Dark2")
-                boxplot(tos[2:6],
+                bpdf <- tos[2:6]
+                colnames(bpdf) <- c("Greenpeace", "Amnesty", 
+                                    "PETA", "RedCross", "Unicef")
+                boxplot(bpdf,
                         main = "All websites in comparison",
                         ylab = "Time on Site in seconds",
                         col = customCol)
@@ -172,9 +177,9 @@ getDataset1 <- reactive({
 ## Tabset 4
 
 ## Generate an HTML table view of the data
-        
+
         output$dataTable <- renderDataTable({
-                tos
+                datatable(tos)
         })
                 
         

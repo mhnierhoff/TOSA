@@ -44,6 +44,9 @@ tabPanel("Overview",
          sidebarLayout(
                  
                  sidebarPanel(
+                         
+                         tags$h4("Exploratory Data Analysis"),
+                         tags$hr(),
                          radioButtons(inputId = "tabOne",
                                       label = "Select an NPO website:",
                                       choices = c("Greenpeace",
