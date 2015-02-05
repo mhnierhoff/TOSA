@@ -15,18 +15,21 @@
 suppressPackageStartupMessages(c(
         library(shiny),
         library(shinyIncubator),
-        library(rCharts),
+        library(shinythemes),
+        library(lubridate),
         library(zoo),
         library(timeDate),
         library(forecast),
         library(knitr),
-        library(xts),
+        library(reshape),
+        library(RColorBrewer),
+        library(AnomalyDetection),
         library(rmarkdown)))
 
 
 shinyUI(navbarPage("Time on Site Analysis", 
                    
-                   theme = "customflatly.css",
+                   theme = shinytheme("flatly"),
                    
                    
                    
@@ -136,7 +139,7 @@ tabPanel("Anomaly Detection",
          sidebarLayout(
                  
                  sidebarPanel(
-                         radioButtons(inputId = "tdmap",
+                         radioButtons(inputId = "tabThree",
                                       label = "Select Twitter account:",
                                       choices = c("Greenpeace",
                                                   "Amnesty International",
@@ -144,17 +147,11 @@ tabPanel("Anomaly Detection",
                                                   "Unicef"),
                                       selected = "Greenpeace"),
                          
-                         tags$hr(),
-                         
-                         sliderInput("lowfreqAssoc", 
-                                     label = "Number of frequent terms:",
-                                     min = 10, max = 40, value = 20),
-                         
                          width = 3),
                  
                  mainPanel(
                          
-                         plotOutput("assocPlot"),
+                         plotOutput("adPlot"),
                          
                          width = 6)
          )
@@ -169,7 +166,7 @@ tabPanel("Decomposition",
          sidebarLayout(
                  
                  sidebarPanel(
-                         radioButtons(inputId = "tabThree",
+                         radioButtons(inputId = "tabFour",
                                       label = "Select Twitter account:",
                                       choices = c("Greenpeace",
                                                   "Amnesty International",

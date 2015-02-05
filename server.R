@@ -15,12 +15,15 @@
 suppressPackageStartupMessages(c(
         library(shiny),
         library(shinyIncubator),
-        library(rCharts),
+        library(shinythemes),
+        library(lubridate),
         library(zoo),
         library(timeDate),
         library(forecast),
         library(knitr),
-        library(xts),
+        library(reshape),
+        library(RColorBrewer),
+        library(AnomalyDetection),
         library(rmarkdown)))
 
 
@@ -34,11 +37,11 @@ shinyServer(function(input, output, session) {
 
 getDataset1 <- reactive({
         switch(input$tabOne,
-               "Greenpeace" = tos[,2],
-               "Amnesty International" = tos[,3],
-               "PETA" = tos[,4],
-               "RedCross" = tos[,5],
-               "Unicef" = tos[,6])
+               "Greenpeace" = tosa[,2],
+               "Amnesty International" = tosa[,3],
+               "PETA" = tosa[,4],
+               "RedCross" = tosa[,5],
+               "Unicef" = tosa[,6])
 })
 
 ## Tabset 1
@@ -46,15 +49,20 @@ getDataset1 <- reactive({
 ## Line chart function
 
         linePlotInput <- function() {
-                tos$Date <- as.Date(tos$Date, "%d.%m.%y")
-                lineDF <- data.frame(tos$Date, getDataset1())
-                plot(lineDF, 
+                plot.ts(getDataset1(), 
+                     axes = FALSE, 
                      type = "l",
+                     col = "darkblue",
+                     lwd = "1.5",
                      main = input$tabOne,
-                     ylab = "Time on Site in seconds",
-                     xlab = "",
-                     lwd = 1.5,
-                     col = "midnightblue")
+                     ylab = "Time on Site in seconds")
+                a <- seq(as.Date(tos$Date, format = "%d.%m.%y")[1] - 1, 
+                         by = "months", length = length(date) + 11)
+                axis(1, at = as.numeric(a)/365.3 + 1970, 
+                     labels = format(a, format = "%d.%m.%Y"), cex.axis = 0.9)
+                axis(2, cex.axis = 0.9, las = 2)
+                box()
+                             
         }
 
         output$linePlot <- renderPlot({
@@ -63,8 +71,18 @@ getDataset1 <- reactive({
 
 
         clinePlotInput <- function() {
-                tos$Date <- as.Date(as.character(tos$Date), "%d.%m.%y")
-                plot(tos[2:6], type = "line")
+                mpdf <- data.frame(tos[2:6])
+                legNames <- names(mpdf)
+                customCol <- brewer.pal(n = 5, name = "Dark2")
+                matplot(mpdf, 
+                        type = "l",
+                        lty = 1,
+                        lwd = 2,
+                        main = "All websites in comparison",
+                        ylab = "Time on Site in seconds",
+                        col = customCol,
+                        xaxt = "n")
+                legend("topleft", legNames, lty = 0, text.col = customCol)
         }
 
         output$clinePlot <- renderPlot({
@@ -95,11 +113,11 @@ getDataset1 <- reactive({
         })
 
         output$cboxPlot <- renderPlot({
+                customCol <- brewer.pal(n = 5, name = "Dark2")
                 boxplot(tos[2:6],
-                        main = "All pages in comparison",
+                        main = "All websites in comparison",
                         ylab = "Time on Site in seconds",
-                        col = c("chartreuse4", "yellow", "cadetblue3", 
-                                "red", "cadetblue1"))
+                        col = customCol)
         })
         
 ## Tabset 3
@@ -204,7 +222,7 @@ forecastPlotInput <- function() {
         x <- forecast(getModel(), h=input$ahead)
         
         plot(x, flty = 3, axes = FALSE)
-        a <- seq(as.Date(tos$Date, format = "%d.%m.%y")[1] + 1, 
+        a <- seq(as.Date(tos$Date, format = "%d.%m.%y")[1] - 1, 
                  by = "months", length = length(date) + 11)
         axis(1, at = as.numeric(a)/365.3 + 1970, 
              labels = format(a, format = "%d/%m/%Y"), 
@@ -250,22 +268,29 @@ output$forecastPlot <- renderPlot({
 ## Getting data
 getDataset3 <- reactive({
         switch(input$tabThree,
-               "Greenpeace" = tosa[,2],
-               "Amnesty International" = tosa[,3],
-               "PETA" = tosa[,4],
-               "RedCross" = tosa[,5],
-               "Unicef" = tosa[,6])
+               "Greenpeace" = tos[,2],
+               "Amnesty International" = tos[,3],
+               "PETA" = tos[,4],
+               "RedCross" = tos[,5],
+               "Unicef" = tos[,6])
         
-})
+        })
 
-
-## Anomaly detection function 
+        ## Anomaly detection function 
         adPlotInput <- function() {
-                tos$Date <- as.Date(as.character(tos$Date), "%d.%m.%y")
-                newDF <- data.frame(tos$Date, getDataset3())
+                tos$Date <- as.Date(tos$Date, format = "%d.%m.%y %H:%M:%S")
+                adDF <- data.frame(tos$Date, getDataset3())
+                res <- AnomalyDetectionTs(adDF, max_anoms=0.10, 
+                                          direction="both", plot=TRUE,
+                                          longterm = TRUE)
+                res$plot
         }
 
+        ## Printing the plot
 
+        output$adPlot <- renderPlot({
+                adPlotInput()
+        })
 
         
 ############################### ~~~~~~~~4~~~~~~~~ ##############################
@@ -274,7 +299,7 @@ getDataset3 <- reactive({
 
 ## Getting data
 getDataset4 <- reactive({
-        switch(input$tabThree,
+        switch(input$tabFour,
                "Greenpeace" = tosa[,2],
                "Amnesty International" = tosa[,3],
                "PETA" = tosa[,4],
