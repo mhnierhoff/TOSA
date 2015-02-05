@@ -22,8 +22,10 @@ suppressPackageStartupMessages(c(
         library(forecast),
         library(knitr),
         library(reshape),
+        library(DT),
         library(RColorBrewer),
         library(AnomalyDetection),
+        library(BreakoutDetection),
         library(rmarkdown)))
 
 
@@ -66,7 +68,31 @@ getDataset1 <- reactive({
         }
 
         output$linePlot <- renderPlot({
-                linePlotInput()
+                
+                ## Adding a progress bar 
+                
+                ## Create a Progress object
+                
+                progress <- shiny::Progress$new()
+                
+                on.exit(progress$close())
+                
+                progress$set(message = "Creating Plot", value = 0)
+                
+                n <- 5
+                
+                for (i in 1:n) {
+                        # Each time through the loop, add another row of data.
+                        # This is a stand-in for a long-running computation.
+                        
+                        # Increment the progress bar, and update the detail text.
+                        progress$inc(1/n, detail = paste("Doing part", i))
+                        
+                        linePlotInput()
+                        
+                        # Pause for 0.1 seconds to simulate a long computation.
+                        Sys.sleep(0.1)
+                }
         })
 
 
@@ -239,9 +265,9 @@ forecastPlotInput <- function() {
 
 output$forecastPlot <- renderPlot({
         
-        ##########    Adding a progress bar  ##########
+## Adding a progress bar 
         
-        ## Create a Progress object
+## Create a Progress object
         
         progress <- shiny::Progress$new()
         
@@ -273,22 +299,34 @@ output$forecastPlot <- renderPlot({
 ## Getting data
 getDataset3 <- reactive({
         switch(input$tabThree,
-               "Greenpeace" = tos[,2],
-               "Amnesty International" = tos[,3],
-               "PETA" = tos[,4],
-               "RedCross" = tos[,5],
-               "Unicef" = tos[,6])
+               "Greenpeace" = tosa[,2],
+               "Amnesty International" = tosa[,3],
+               "PETA" = tosa[,4],
+               "RedCross" = tosa[,5],
+               "Unicef" = tosa[,6])
         
         })
 
         ## Anomaly detection function 
         adPlotInput <- function() {
-                tos$Date <- as.Date(tos$Date, format = "%d.%m.%y %H:%M:%S")
-                adDF <- data.frame(tos$Date, getDataset3())
-                res <- AnomalyDetectionTs(adDF, max_anoms=0.10, 
-                                          direction="both", plot=TRUE,
-                                          longterm = TRUE)
-                res$plot
+                tos$Date <- as.Date(tos$Date, format = "%d.%m.%y")
+                tos$Date <- as.POSIXlt(tos$Date)
+                dataTS <- ts(getDataset3(), frequency=12)
+                adDF <- data.frame(tos$Date, dataTS)
+                
+                names(adDF)[1] <- paste("timestamp")
+                names(adDF)[2] <- paste("count")
+                
+                breakout(adDF, 
+                         min.size=24, 
+                         method = "multi", 
+                         beta =0.001, 
+                         degree=1, 
+                         plot = TRUE, 
+                         title = input$tabThree, 
+                         xlab = "Time", 
+                         ylab = "Time on Site in seconds")
+
         }
 
         ## Printing the plot

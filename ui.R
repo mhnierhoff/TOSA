@@ -22,8 +22,10 @@ suppressPackageStartupMessages(c(
         library(forecast),
         library(knitr),
         library(reshape),
+        library(DT),
         library(RColorBrewer),
         library(AnomalyDetection),
+        library(BreakoutDetection),
         library(rmarkdown)))
 
 
@@ -137,7 +139,7 @@ tabPanel("Forecasting",
 
 ## NAVTAB 3 - Anomaly Detection
 
-tabPanel("Anomaly Detection",
+tabPanel("Breakout Detection",
          
          sidebarLayout(
                  
