@@ -24,7 +24,6 @@ suppressPackageStartupMessages(c(
         library(reshape),
         library(DT),
         library(RColorBrewer),
-        library(AnomalyDetection),
         library(BreakoutDetection),
         library(rmarkdown)))
 
@@ -145,7 +144,7 @@ tabPanel("Breakout Detection",
                  
                  sidebarPanel(
                          radioButtons(inputId = "tabThree",
-                                      label = "Select Twitter account:",
+                                      label = "Select an NPO website:",
                                       choices = c("Greenpeace",
                                                   "Amnesty International",
                                                   "PETA", "RedCross",
@@ -172,7 +171,7 @@ tabPanel("Decomposition",
                  
                  sidebarPanel(
                          radioButtons(inputId = "tabFour",
-                                      label = "Select Twitter account:",
+                                      label = "Select an NPO website:",
                                       choices = c("Greenpeace",
                                                   "Amnesty International",
                                                   "PETA", "RedCross",

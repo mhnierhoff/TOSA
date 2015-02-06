@@ -24,7 +24,6 @@ suppressPackageStartupMessages(c(
         library(reshape),
         library(DT),
         library(RColorBrewer),
-        library(AnomalyDetection),
         library(BreakoutDetection),
         library(rmarkdown)))
 
@@ -366,8 +365,7 @@ getDataset4 <- reactive({
         output$NTScaption <- renderText({
                 paste("The data of the", input$tabThree, 
                       "website decomposed into seasonal, trend and irregular 
-                      components using moving averages. The additive model 
-                      uses the following formula: Y[t] = T[t] + S[t] + e[t]")
+                      components using moving averages.")
         })
 
         ## Printing the plot

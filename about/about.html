@@ -76,17 +76,25 @@ img {
 <div id="last-update" class="section level3">
 <h3>Last Update</h3>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Sys.time</span>()</code></pre>
-<pre><code>## [1] &quot;2015-02-05 01:25:41 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2015-02-06 01:04:00 CET&quot;</code></pre>
+<hr />
+</div>
+<div id="code" class="section level3">
+<h3>Code</h3>
+<p>The code of this application can be found in this <a href="https://github.com/mhnierhoff/TOSA" title="TOSA Github Repo">Github repository.</a></p>
+<hr />
 </div>
 <div id="data-set" class="section level3">
 <h3>Data Set</h3>
 <p>The used data set was derived from an own account and own comparisons by the use of Alexa.com Competitive Intelligence metrics.</p>
-<p>The presented forecasts relate to the Alexa Time on Site metric.</p>
+<p>The presented plots, forecasts and calculations relate to the Alexa Time on Site metric.</p>
 <p>Related websites:</p>
 <ul>
-<li><p><a href="https://twitter.com/amnesty" title="Amnesty Twitter Account">Amnesty International</a></p></li>
-<li><p><a href="https://twitter.com/RedCross" title="Red Cross Twitter Account">American Red Cross</a></p></li>
-<li><p><a href="https://twitter.com/peta" title="PETA Twitter Account">PETA</a></p></li>
+<li><p><a href="http://www.greenpeace.org/international/en/" title="Greenpeace Website">Greenpeace</a></p></li>
+<li><p><a href="http://www.amnesty.org" title="Amnesty Website">Amnesty International</a></p></li>
+<li><p><a href="http://www.peta.org" title="PETA Website">PETA</a></p></li>
+<li><p><a href="http://www.redcross.org" title="Red Cross Website">Red Cross</a></p></li>
+<li><p><a href="http://www.unicef.org" title="Unicef Website">Unicef</a></p></li>
 </ul>
 <hr />
 </div>
@@ -96,38 +104,130 @@ img {
 <p>In case of any questions related to this application, feel free to write <a href="http://nierhoff.info/#contact" title="Contact">me a mail.</a></p>
 <hr />
 </div>
+<div id="first-tab---overview" class="section level3">
+<h3>First Tab - Overview</h3>
+<p>In simple but appropriate words:</p>
+<blockquote>
+<p>In statistics, exploratory data analysis (EDA) is an approach to analyzing data sets to summarize their main characteristics, often with visual methods. <a href="http://nierhoff.info/#contact" title="Contact">(wikipedia.org)</a></p>
+</blockquote>
+<p>The line chart gives an first impression of the selected data set, while the boxplot shows the median, quartiles, outliers and also gives a first view on the respective distribution. Finally the histogram enables a clear presentation of the distribution of the selected data set. At least the raw data tab makes it possible to check every single value of the data set.</p>
+<hr />
+</div>
+<div id="second-tab---forecasting-models" class="section level3">
+<h3>Second Tab - Forecasting Models</h3>
+<div id="auto.arima" class="section level4">
+<h4>Auto.Arima</h4>
+<p>Fit best ARIMA model to univariate time series</p>
+<p><strong>Description:</strong></p>
+<p>Returns best ARIMA model according to either AIC, AICc or BIC value. The function conducts a search over possible model within the order constraints provided.</p>
+<hr />
+</div>
+<div id="ets" class="section level4">
+<h4>ETS</h4>
+<p>Exponential smoothing state space model</p>
+<p><strong>Description:</strong></p>
+<p>Returns ets model applied to y.</p>
+<hr />
+</div>
+<div id="tbats" class="section level4">
+<h4>TBATS</h4>
+<p>TBATS model (Exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal components)</p>
+<p><strong>Description:</strong></p>
+<p>Fits a TBATS model applied to y, as described in De Livera, Hyndman &amp; Snyder (2011). Parallel processing is used by default to speed up the computations.</p>
+<hr />
+</div>
+<div id="structts" class="section level4">
+<h4>StructTS</h4>
+<p>Forecasting using Structural Time Series models</p>
+<p><strong>Description:</strong></p>
+<p>Returns forecasts and other information for univariate structural time series models.</p>
+<hr />
+</div>
+<div id="holt-winters" class="section level4">
+<h4>Holt-Winters</h4>
+<p>Forecasting using Holt-Winters objects</p>
+<p><strong>Description:</strong></p>
+<p>Returns forecasts and other information for univariate Holt-Winters time series models.</p>
+<hr />
+</div>
+<div id="theta" class="section level4">
+<h4>Theta</h4>
+<p>Theta method forecast</p>
+<p><strong>Description:</strong></p>
+<p>Returns forecasts and prediction intervals for a theta method forecast.</p>
+<hr />
+</div>
+<div id="random-walk" class="section level4">
+<h4>Random Walk</h4>
+<p>Random Walk Forecast</p>
+<p><strong>Description:</strong></p>
+<p>Returns forecasts and prediction intervals for a random walk with drift model applied to x.</p>
+<hr />
+</div>
+<div id="naive" class="section level4">
+<h4>Naive</h4>
+<p>Naive forecasts</p>
+<p><strong>Description:</strong></p>
+<p><code>naive()</code> returns forecasts and prediction intervals for an ARIMA(0,1,0) random walk model ap- plied to x. <code>snaive()</code> returns forecasts and prediction intervals from an ARIMA(0,0,0)(0,1,0)m model where m is the seasonal period.</p>
+<hr />
+</div>
+<div id="cubic-spline" class="section level4">
+<h4>Cubic Spline</h4>
+<p>Cubic Spline Forecast</p>
+<p><strong>Description:</strong></p>
+<p>Returns local linear forecasts and prediction intervals using cubic smoothing splines.</p>
+<hr />
+</div>
+<div id="mean" class="section level4">
+<h4>Mean</h4>
+<p>Mean Forecast</p>
+<p><strong>Description:</strong></p>
+<p>Returns forecasts and prediction intervals for an iid model applied to x.</p>
+</div>
+<div id="references" class="section level4">
+<h4>References</h4>
+<p>Hyndman RJ (2015). forecast: Forecasting functions for time series and linear models. R package version 5.8, <a href="http://github.com/robjhyndman/forecast" class="uri">http://github.com/robjhyndman/forecast</a>.</p>
+<p>Hyndman RJ and Khandakar Y (2008). “Automatic time series forecasting: the forecast package for R.” Journal of Statistical Software, 26(3), pp. 1–22. <a href="http://ideas.repec.org/a/jss/jstsof/27i03.html" class="uri">http://ideas.repec.org/a/jss/jstsof/27i03.html</a>.</p>
+<hr />
+</div>
+</div>
+<div id="third-tab---breakout-detection" class="section level3">
+<h3>Third Tab - Breakout Detection</h3>
+<p>The Breakout Detection is being solved through the Twitter R package with the respective name. You can chek the code and more information in the <a href="https://github.com/twitter/BreakoutDetection" title="Twitter Breakout Detection R Package">respository on Github.</a></p>
+<blockquote>
+<p>The underlying algorithm – referred to as E-Divisive with Medians (EDM) – employs energy statistics to detect divergence in mean. Note that EDM can also be used detect change in distribution in a given time series. EDM uses robust statistical metrics, viz., median, and estimates the statistical significance of a breakout through a permutation test.</p>
+</blockquote>
+<hr />
+</div>
+<div id="fourth-tab---decomposition" class="section level3">
+<h3>Fourth Tab - Decomposition</h3>
+<div id="normal-timeseries-decomposition" class="section level4">
+<h4>Normal Timeseries Decomposition</h4>
+<p>This decomposition formula splits the data into seasonal, trend and irregular components using moving averages. The additive model uses the following formula: Y[t] = T[t] + S[t] + e[t].</p>
+</div>
+<div id="stl-decomposition" class="section level4">
+<h4>STL Decomposition</h4>
+<blockquote>
+<p>STL is a very versatile and robust method for decomposing time series. STL is an acronym for “Seasonal and Trend decomposition using Loess”, while Loess is a method for estimating nonlinear relationships. The STL method was developed by Cleveland et al. (1990) <a href="https://www.otexts.org/fpp/6/5" title="STL Decomposition">(Source)</a></p>
+</blockquote>
+<hr />
+</div>
+</div>
 <div id="used-r-packages" class="section level3">
 <h3>Used R Packages</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(graph)
-<span class="kw">library</span>(twitteR)
-<span class="kw">library</span>(NLP)
-<span class="kw">library</span>(tm)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(zoo)
+<span class="kw">library</span>(timeDate)
+<span class="kw">library</span>(forecast)
+<span class="kw">library</span>(lubridate)
+<span class="kw">library</span>(shiny)
 <span class="kw">library</span>(shinyIncubator)
-<span class="kw">library</span>(grid)
-<span class="kw">library</span>(pvclust)
-<span class="kw">library</span>(Rgraphviz)
-<span class="kw">library</span>(qdapTools)
-<span class="kw">library</span>(qdapRegex)
-<span class="kw">library</span>(magrittr)
-<span class="kw">library</span>(wordcloud)
+<span class="kw">library</span>(shinythemes)
+<span class="kw">library</span>(knitr)
+<span class="kw">library</span>(reshape)
+<span class="kw">library</span>(DT)
 <span class="kw">library</span>(RColorBrewer)
-<span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(RCurl)
-<span class="kw">library</span>(bitops)
-<span class="kw">library</span>(shinyapps)
-<span class="kw">library</span>(BH)
-<span class="kw">library</span>(qdap)
-<span class="kw">library</span>(SnowballC)
-<span class="kw">library</span>(slam)
-<span class="kw">library</span>(RWeka)
-<span class="kw">library</span>(rJava) 
-<span class="kw">library</span>(RWekajars)
-<span class="kw">library</span>(memoise)
-<span class="kw">library</span>(devtools)
-<span class="kw">library</span>(rjson)
-<span class="kw">library</span>(bit64)
-<span class="kw">library</span>(httr)
-<span class="kw">library</span>(plyr)</code></pre>
+<span class="kw">library</span>(BreakoutDetection)
+<span class="kw">library</span>(rmarkdown)</code></pre>
 <hr />
 </div>
 <div id="last-session-info" class="section level3">
