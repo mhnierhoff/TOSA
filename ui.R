@@ -155,8 +155,10 @@ tabPanel("Breakout Detection",
                  mainPanel(
                          
                          plotOutput("adPlot"),
-#                          tags$strong(textOutput("breakoutCaption"), 
-#                                      align = "center"),
+                         tags$div(textOutput("breakoutCaptionT"), 
+                                     align = "center"),
+                         tags$div(textOutput("breakoutCaptionV"), 
+                                     align = "center"),
                          
                          width = 6)
          )

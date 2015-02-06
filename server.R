@@ -291,7 +291,7 @@ output$forecastPlot <- renderPlot({
         
 ############################### ~~~~~~~~3~~~~~~~~ ##############################
         
-## NAVTAB 3 - Anomaly Detection
+## NAVTAB 3 - Breakout Detection
         
 ## Getting data
 getDataset3 <- reactive({
@@ -308,8 +308,7 @@ getDataset3 <- reactive({
         adPlotInput <- function() {
                 tos$Date <- as.Date(tos$Date, format = "%d.%m.%y")
                 tos$Date <- as.POSIXlt(tos$Date)
-                dataTS <- ts(getDataset3(), frequency=12)
-                adDF <- data.frame(tos$Date, dataTS)
+                adDF <- data.frame(tos$Date, getDataset3())
                 
                 names(adDF)[1] <- paste("timestamp")
                 names(adDF)[2] <- paste("count")
@@ -327,32 +326,41 @@ getDataset3 <- reactive({
 
         }
 
-#         ## Caption function
-#         breakoutCaptionInput <- function() {
-#                 tos$Date <- as.Date(tos$Date, format = "%d.%m.%y")
-#                 tos$Date <- as.POSIXlt(tos$Date)
-#                 dataTS <- ts(getDataset3(), frequency=12)
-#                 adDF <- data.frame(tos$Date, dataTS)
-#                 
-#                 names(adDF)[1] <- paste("timestamp")
-#                 names(adDF)[2] <- paste("count")
-#                 
-#                 res <- breakout(adDF, 
-#                                 min.size=24, 
-#                                 method = "multi", 
-#                                 beta =0.001, 
-#                                 degree=1, 
-#                                 plot = F, 
-#                                 title = input$tabThree, 
-#                                 xlab = "Time", 
-#                                 ylab = "Time on Site in seconds")
-#                 res$loc
-#         }
-# 
-#         output$breakoutCaption <- renderText({
-#                   paste("The identified breakouts for", input$tabThree, 
-#                         "are at", breakoutCaptionInput(), ".")
-#                 })
+        ## Caption function
+        breakoutCaptionInput <- function() {
+                tos$Date <- as.Date(tos$Date, format = "%d.%m.%y")
+                tos$Date <- as.POSIXlt(tos$Date)
+                adDF <- data.frame(tos$Date, getDataset3())
+                
+                names(adDF)[1] <- paste("timestamp")
+                names(adDF)[2] <- paste("count")
+                
+                res <- breakout(adDF, 
+                                min.size=24, 
+                                method = "multi", 
+                                beta =0.001, 
+                                degree=1, 
+                                plot = F, 
+                                title = input$tabThree, 
+                                xlab = "Time", 
+                                ylab = "Time on Site in seconds")
+                
+                bod <- res$loc[ ]
+                dbod <- adDF$timestamp[bod]
+                dbod <- as.character(dbod)
+                dbod <- paste(dbod[], sep="", collapse=" , ")
+                
+        }
+        
+        output$breakoutCaptionT <- renderText({
+                paste("Detected breakouts for the", input$tabThree, 
+                      "website:")
+                })
+
+        output$breakoutCaptionV <- renderText({
+                 breakoutCaptionInput()
+                  
+                })
 
         ## Printing the plot
 
