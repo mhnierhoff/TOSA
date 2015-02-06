@@ -40,14 +40,14 @@ shinyUI(navbarPage("Time on Site Analysis",
 
 tabPanel("Overview",
          
-         #tags$head(includeScript("./www/ga-tosa.js")),
+         tags$head(includeScript("./js/ga-tosa.js")),
          
          sidebarLayout(
                  
                  sidebarPanel(
                          
                          tags$h4("Exploratory Data Analysis"),
-                         tags$hr(),
+                         tags$br(),
                          radioButtons(inputId = "tabOne",
                                       label = "Select an NPO website:",
                                       choices = c("Greenpeace",
@@ -75,7 +75,6 @@ tabPanel("Overview",
                                  
                                  tabPanel("Histogram",
                                           plotOutput("histPlot"),
-                                          tags$hr(),
                                           tags$div(textOutput("histPlotCaption"), 
                                                   align = "center")),
                                  
@@ -156,6 +155,8 @@ tabPanel("Breakout Detection",
                  mainPanel(
                          
                          plotOutput("adPlot"),
+#                          tags$strong(textOutput("breakoutCaption"), 
+#                                      align = "center"),
                          
                          width = 6)
          )

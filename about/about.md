@@ -7,7 +7,7 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-02-06 01:04:00 CET"
+## [1] "2015-02-06 01:07:20 CET"
 ```
 
 ***
@@ -148,7 +148,9 @@ Mean Forecast
 
 Returns forecasts and prediction intervals for an iid model applied to x. 
 
-#### References
+***
+
+#### References for the Forecast R package
 
 Hyndman RJ (2015). forecast: Forecasting functions for time series and linear models. R package version 5.8, http://github.com/robjhyndman/forecast.
 
@@ -158,7 +160,7 @@ Hyndman RJ and Khandakar Y (2008). “Automatic time series forecasting: the for
 
 ### Third Tab - Breakout Detection
 
-The Breakout Detection is being solved through the Twitter R package with the respective name. You can chek the code and more information in the [respository on Github.][9]
+The Breakout Detection is being solved through the Twitter R package with the respective name. You can check the code and more information in their [repo on Github.][9]
 
 > The underlying algorithm – referred to as E-Divisive with Medians (EDM) – employs energy statistics to detect divergence in mean. Note that EDM can also be used detect change in distribution in a given time series. EDM uses robust statistical metrics, viz., median, and estimates the statistical significance of a breakout through a permutation test.
 

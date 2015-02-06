@@ -306,7 +306,7 @@ getDataset3 <- reactive({
         
         })
 
-        ## Anomaly detection function 
+        ## Breakout detection function 
         adPlotInput <- function() {
                 tos$Date <- as.Date(tos$Date, format = "%d.%m.%y")
                 tos$Date <- as.POSIXlt(tos$Date)
@@ -316,7 +316,7 @@ getDataset3 <- reactive({
                 names(adDF)[1] <- paste("timestamp")
                 names(adDF)[2] <- paste("count")
                 
-                breakout(adDF, 
+                res <- breakout(adDF, 
                          min.size=24, 
                          method = "multi", 
                          beta =0.001, 
@@ -325,8 +325,36 @@ getDataset3 <- reactive({
                          title = input$tabThree, 
                          xlab = "Time", 
                          ylab = "Time on Site in seconds")
+                res$plot
 
         }
+
+#         ## Caption function
+#         breakoutCaptionInput <- function() {
+#                 tos$Date <- as.Date(tos$Date, format = "%d.%m.%y")
+#                 tos$Date <- as.POSIXlt(tos$Date)
+#                 dataTS <- ts(getDataset3(), frequency=12)
+#                 adDF <- data.frame(tos$Date, dataTS)
+#                 
+#                 names(adDF)[1] <- paste("timestamp")
+#                 names(adDF)[2] <- paste("count")
+#                 
+#                 res <- breakout(adDF, 
+#                                 min.size=24, 
+#                                 method = "multi", 
+#                                 beta =0.001, 
+#                                 degree=1, 
+#                                 plot = F, 
+#                                 title = input$tabThree, 
+#                                 xlab = "Time", 
+#                                 ylab = "Time on Site in seconds")
+#                 res$loc
+#         }
+# 
+#         output$breakoutCaption <- renderText({
+#                   paste("The identified breakouts for", input$tabThree, 
+#                         "are at", breakoutCaptionInput(), ".")
+#                 })
 
         ## Printing the plot
 
