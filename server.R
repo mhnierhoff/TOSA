@@ -456,7 +456,7 @@ calendarPlotInput <- function() {
                                     title = input$tabFive,
                                     height = 350,
                                     calendar = "{yearLabel: { fontName: 'Times-Roman',
-                                    fontSize: 32, color: '#1A8763', bold: true},
+                                    fontSize: 32, color: '#1EB18A', bold: true},
                                     cellSize: 10,
                                     cellColor: { stroke: 'grey', strokeOpacity: 0.2 },
                                     focusedCellColor: {stroke:'red'}}")
