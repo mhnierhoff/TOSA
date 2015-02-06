@@ -7,7 +7,7 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-02-06 01:07:20 CET"
+## [1] "2015-02-06 15:30:24 CET"
 ```
 
 ***
@@ -178,6 +178,12 @@ This decomposition formula splits the data into seasonal, trend and irregular co
 
 ***
 
+### Fifth Tab - Calendar View
+
+The view of the data in a calendar allows to inspect the respective values per day interactively and also enables a quick detection of differences between weekdays and weekends. Furthermore, seasonal differences can also be discovered at a first glance.
+
+***
+
 ### Used R Packages
 
 
@@ -193,6 +199,7 @@ library(knitr)
 library(reshape)
 library(DT)
 library(RColorBrewer)
+library(googleVis)
 library(BreakoutDetection)
 library(rmarkdown)
 ```

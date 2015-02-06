@@ -24,6 +24,7 @@ suppressPackageStartupMessages(c(
         library(reshape),
         library(DT),
         library(RColorBrewer),
+        library(googleVis),
         library(BreakoutDetection),
         library(rmarkdown)))
 
@@ -34,7 +35,7 @@ shinyServer(function(input, output, session) {
         
 ############################### ~~~~~~~~1~~~~~~~~ ##############################
         
-## NAVTAB 1 - Interactive Chart
+## NAVTAB 1 - EDA
 
 getDataset1 <- reactive({
         switch(input$tabOne,
@@ -206,10 +207,7 @@ getDataset1 <- reactive({
         output$dataTable <- renderDataTable({
                 datatable(tos)
         })
-                
-        
-
-        
+                  
 ############################### ~~~~~~~~2~~~~~~~~ ##############################
         
 ## NAVTAB 2 - Forecasting
@@ -426,7 +424,50 @@ getDataset4 <- reactive({
         output$STLdcomp <- renderPlot({
                 plotSTLdcomp()
         })
-   
+
+############################### ~~~~~~~~5~~~~~~~~ ##############################
+
+## NAVTAB 5 - Calendar View
+
+## Getting data
+
+getDataset5 <- reactive({
+        switch(input$tabFive,
+               "Greenpeace" = tos[,2],
+               "Amnesty International" = tos[,3],
+               "PETA" = tos[,4],
+               "RedCross" = tos[,5],
+               "Unicef" = tos[,6])
+        
+})
+
+## Calendar plot function
+
+calendarPlotInput <- function() {
+        Date <- as.Date(tos$Date, format = "%d.%m.%y")
+        Date <- as.POSIXlt(Date)
+        calDF <- data.frame(Date, getDataset5())
+        names(calDF)[2] <- paste("Values")
+        
+        gvisCalendar(calDF, 
+                            datevar ="Date", 
+                            numvar = "Values",
+                            options =list(
+                                    title = input$tabFive,
+                                    height = 350,
+                                    calendar = "{yearLabel: { fontName: 'Times-Roman',
+                                    fontSize: 32, color: '#1A8763', bold: true},
+                                    cellSize: 10,
+                                    cellColor: { stroke: 'grey', strokeOpacity: 0.2 },
+                                    focusedCellColor: {stroke:'red'}}")
+                            )
+}
+
+output$calendarPlot <- renderGvis({
+        
+        calendarPlotInput()      
+})
+
 ############################### ~~~~~~~~F~~~~~~~~ ##############################
 
 ## Footer

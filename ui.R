@@ -24,9 +24,9 @@ suppressPackageStartupMessages(c(
         library(reshape),
         library(DT),
         library(RColorBrewer),
+        library(googleVis),
         library(BreakoutDetection),
         library(rmarkdown)))
-
 
 shinyUI(navbarPage("Time on Site Analysis", 
                    
@@ -206,8 +206,37 @@ tabPanel("Decomposition",
                  
          )
          
+),          
+
+############################### ~~~~~~~~4~~~~~~~~ ##############################
+
+## NAVTAB 5 - Calendar View
+
+tabPanel("Calendar View",
+         
+         sidebarLayout(
+                 
+                 sidebarPanel(
+                         radioButtons(inputId = "tabFive",
+                                      label = "Select an NPO website:",
+                                      choices = c("Greenpeace",
+                                                  "Amnesty International",
+                                                  "PETA", "RedCross",
+                                                  "Unicef"),
+                                      selected = "Greenpeace"),
+                         
+                         width = 3),
+                 
+                 mainPanel(
+                         
+                         htmlOutput("calendarPlot"),
+                         
+                         width = 6)
+                 
+         )
+         
 ),
-                   
+
 ############################### ~~~~~~~~A~~~~~~~~ ##############################
                    
 ## About
