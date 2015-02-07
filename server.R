@@ -397,7 +397,7 @@ getDataset4 <- reactive({
         ## Normal TS DC Plot Caption
 
         output$NTScaption <- renderText({
-                paste("The data of the", input$tabThree, 
+                paste("The data of the", input$tabFour, 
                       "website decomposed into seasonal, trend and irregular 
                       components using moving averages.")
         })
@@ -422,7 +422,7 @@ getDataset4 <- reactive({
         ## STL Caption
 
         output$STLcaption <- renderText({
-                paste("The data of the", input$tabThree, 
+                paste("The data of the", input$tabFour, 
                       "website decomposed into seasonal, trend and irregular 
                       components using loess (acronym STL).")
         })
