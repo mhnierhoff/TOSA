@@ -200,7 +200,17 @@ getDataset1 <- reactive({
                 histPlotInput()
         })
 
+
 ## Tabset 4
+
+## Generate a summary view
+
+output$summaryView <- renderPrint({
+        summary(getDataset1())
+})
+
+
+## Tabset 5
 
 ## Generate an HTML table view of the data
 

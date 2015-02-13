@@ -7,7 +7,7 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-02-07 15:37:29 CET"
+## [1] "2015-02-13 18:54:57 CET"
 ```
 
 ***
@@ -210,39 +210,23 @@ library(rmarkdown)
 
 
 ```r
-devtools::session_info()
+sessionInfo()
 ```
 
 ```
-## Session info --------------------------------------------------------------
-```
-
-```
-##  setting  value                       
-##  version  R version 3.1.2 (2014-10-31)
-##  system   x86_64, darwin13.4.0        
-##  ui       X11                         
-##  language (EN)                        
-##  collate  de_DE.UTF-8                 
-##  tz       Europe/Berlin
-```
-
-```
-## Packages ------------------------------------------------------------------
-```
-
-```
-##  package    * version date       source        
-##  devtools   * 1.7.0   2015-01-17 CRAN (R 3.1.2)
-##  digest     * 0.6.8   2014-12-31 CRAN (R 3.1.2)
-##  evaluate   * 0.5.5   2014-04-29 CRAN (R 3.1.0)
-##  formatR    * 1.0     2014-08-25 CRAN (R 3.1.1)
-##  htmltools  * 0.2.6   2014-09-08 CRAN (R 3.1.1)
-##  knitr      * 1.9     2015-01-20 CRAN (R 3.1.2)
-##  rmarkdown  * 0.5.1   2015-01-26 CRAN (R 3.1.2)
-##  rstudioapi * 0.2     2014-12-31 CRAN (R 3.1.2)
-##  stringr    * 0.6.2   2012-12-06 CRAN (R 3.1.2)
-##  yaml       * 2.1.13  2014-06-12 CRAN (R 3.1.0)
+## R version 3.1.2 (2014-10-31)
+## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## 
+## locale:
+## [1] de_DE.UTF-8/de_DE.UTF-8/de_DE.UTF-8/C/de_DE.UTF-8/de_DE.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## loaded via a namespace (and not attached):
+## [1] digest_0.6.8    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6
+## [5] knitr_1.9       rmarkdown_0.5.1 stringr_0.6.2   tools_3.1.2    
+## [9] yaml_2.1.13
 ```
 
 

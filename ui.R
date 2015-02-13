@@ -78,6 +78,9 @@ tabPanel("Overview",
                                           tags$div(textOutput("histPlotCaption"), 
                                                   align = "center")),
                                  
+                                 tabPanel("Summary",
+                                          verbatimTextOutput("summaryView")),
+                                 
                                  tabPanel("Raw Data",
                                           tags$br(),
                                           dataTableOutput("dataTable"))
