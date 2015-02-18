@@ -7,7 +7,7 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-02-19 00:19:52 CET"
+## [1] "2015-02-19 00:24:15 CET"
 ```
 
 ***
@@ -194,7 +194,6 @@ library(forecast)
 library(lubridate)
 library(shiny)
 library(shinyIncubator)
-library(shinythemes)
 library(knitr)
 library(reshape)
 library(DT)

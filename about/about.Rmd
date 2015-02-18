@@ -2,9 +2,10 @@
 output:
   html_document:
     bibliography: bibtex
-    highlight: tango
+    highlight: null
     keep_md: yes
-    theme: spacelab
+    self_contained: no
+    theme: null
 ---
 
 ### Last Update
