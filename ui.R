@@ -15,6 +15,7 @@
 suppressPackageStartupMessages(c(
         library(shiny),
         library(shinyIncubator),
+        library(shinythemes),
         library(lubridate),
         library(zoo),
         library(timeDate),
@@ -27,19 +28,18 @@ suppressPackageStartupMessages(c(
         library(BreakoutDetection),
         library(rmarkdown)))
 
+
 shinyUI(navbarPage("Time on Site Analysis", 
                    
-                   theme = "flatly.css",
-                   
-                   
+                   theme = shinytheme("flatly"),   
                    
 ############################### ~~~~~~~~1~~~~~~~~ ##############################                   
 
-## NAVTAB 1 - Interactive Chart
+## NAVTAB 1 - EDA
 
 tabPanel("Overview",
          
-         tags$head(includeScript("./www/ga-tosa.js")),
+         tags$head(includeScript("./js/ga-tosa.js")),
          
          sidebarLayout(
                  
@@ -212,7 +212,7 @@ tabPanel("Decomposition",
          
 ),          
 
-############################### ~~~~~~~~4~~~~~~~~ ##############################
+############################### ~~~~~~~~5~~~~~~~~ ##############################
 
 ## NAVTAB 5 - Calendar View
 

@@ -15,6 +15,7 @@
 suppressPackageStartupMessages(c(
         library(shiny),
         library(shinyIncubator),
+        library(shinythemes),
         library(lubridate),
         library(zoo),
         library(timeDate),
@@ -26,7 +27,6 @@ suppressPackageStartupMessages(c(
         library(googleVis),
         library(BreakoutDetection),
         library(rmarkdown)))
-
 
 source("data.R")
 
