@@ -30,7 +30,7 @@ suppressPackageStartupMessages(c(
 
 shinyUI(navbarPage("Time on Site Analysis", 
                    
-                   theme = shinytheme("flatly"),
+                   theme = "flatly.css",
                    
                    
                    
@@ -40,7 +40,7 @@ shinyUI(navbarPage("Time on Site Analysis",
 
 tabPanel("Overview",
          
-         tags$head(includeScript("./js/ga-tosa.js")),
+         tags$head(includeScript("./www/ga-tosa.js")),
          
          sidebarLayout(
                  
