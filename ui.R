@@ -15,7 +15,6 @@
 suppressPackageStartupMessages(c(
         library(shiny),
         library(shinyIncubator),
-        library(shinythemes),
         library(lubridate),
         library(zoo),
         library(timeDate),
