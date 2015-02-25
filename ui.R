@@ -26,6 +26,7 @@ suppressPackageStartupMessages(c(
         library(RColorBrewer),
         library(googleVis),
         library(BreakoutDetection),
+        library(tseries),
         library(rmarkdown)))
 
 
@@ -78,9 +79,22 @@ tabPanel("Overview",
                                                   align = "center")),
                                  
                                  tabPanel("Summary",
-                                          verbatimTextOutput("summaryView"),
-                                          tags$div(textOutput("summaryCaption"), 
-                                                   align = "left")),
+                                          tags$br(),
+                                          textOutput("summaryCaption1"),
+                                          tags$br(),
+                                          textOutput("summaryCaption2"),
+                                          textOutput("summaryCaption3"),
+                                          textOutput("summaryCaption4"),
+                                          textOutput("summaryCaption5"),
+                                          textOutput("summaryCaption6"),
+                                          textOutput("summaryCaption7"),
+                                          textOutput("summaryCaption8"),
+                                          textOutput("summaryCaption9"),
+                                          textOutput("summaryCaption10"),
+                                          textOutput("summaryCaption11"),
+                                          textOutput("summaryCaption12"),
+                                          textOutput("summaryCaption13")),
+                                                   
                                  
                                  tabPanel("Raw Data",
                                           tags$br(),

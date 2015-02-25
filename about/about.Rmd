@@ -203,6 +203,7 @@ library(DT)
 library(RColorBrewer)
 library(googleVis)
 library(BreakoutDetection)
+library(tseries)
 library(rmarkdown)
 ```
 

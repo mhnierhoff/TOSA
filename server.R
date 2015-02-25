@@ -26,7 +26,7 @@ suppressPackageStartupMessages(c(
         library(RColorBrewer),
         library(googleVis),
         library(BreakoutDetection),
-        library(psych),
+        library(tseries),
         library(rmarkdown)))
 
 source("data.R")
@@ -207,10 +207,6 @@ getDataset1 <- reactive({
 
 ## Generate a summary view
 
-        output$summaryView <- renderPrint({
-                describe(getDataset1())
-        })
-
         ## Caption function
         Mode <- function(x) {
                 ux <- unique(x)
@@ -221,21 +217,57 @@ getDataset1 <- reactive({
                 sd(x)/sqrt(length(x))
         }
 
-        output$summaryCaption <- renderText({
-                paste("Summary for the", 
-                input$tabOne, "website.",
-                "Minimum:", round(min(getDataset1()), digits = 2),
-                "1st Quartile:", round(quantile(getDataset1(), probs=0.25), digits = 2),
-                "3rd Quartile:", round(quantile(getDataset1(), probs=0.75), digits = 2),
-                "Maximum:", round(max(getDataset1(), probs=0.75), digits = 2),
-                "Median:", round(median(getDataset1()), digits = 2),
-                "Mean:", round(mean(getDataset1()), digits = 2),
-                "Mode:", round(Mode(getDataset1()), digits = 2),
-                "Standard Deviation:", round(sd(getDataset1()), digits = 2),
-                "Skewness:", round(skewness(getDataset1()), digits = 2),
-                "Kurtosis:", round(kurtosis(getDataset1()), digits = 2),
-                "Median Absolute Deviation:", round(mad(getDataset1()), digits = 2),
-                "Standard Error:", round(std(getDataset1()), digits = 2))
+        output$summaryCaption1 <- renderText({
+                paste("Descriptive statistics for the", 
+                input$tabOne, "website.")
+        })
+
+        output$summaryCaption2 <- renderText({
+                paste("Minimum:", round(min(getDataset1()), digits = 2))
+        })
+
+        output$summaryCaption3 <- renderText({
+                paste("1st Quartile:", round(quantile(getDataset1(), probs=0.25), digits = 2))
+        })
+
+        output$summaryCaption4 <- renderText({
+                paste("3rd Quartile:", round(quantile(getDataset1(), probs=0.75), digits = 2))
+        })
+
+        output$summaryCaption5 <- renderText({
+                paste("Maximum:", round(max(getDataset1(), probs=0.75), digits = 2))
+        })
+
+        output$summaryCaption6 <- renderText({
+                paste("Median:", round(median(getDataset1()), digits = 2))
+        })
+
+        output$summaryCaption7 <- renderText({
+                paste("Mean:", round(mean(getDataset1()), digits = 2))
+        })
+
+        output$summaryCaption8 <- renderText({
+                paste("Mode:", round(Mode(getDataset1()), digits = 2))
+        })
+
+        output$summaryCaption9 <- renderText({
+                paste("Standard Deviation:", round(sd(getDataset1()), digits = 2))
+        })
+
+        output$summaryCaption10 <- renderText({
+                paste("Skewness:", round(skewness(getDataset1()), digits = 2))
+        })
+
+        output$summaryCaption11 <- renderText({
+                paste("Kurtosis:", round(kurtosis(getDataset1()), digits = 2))
+        })
+
+        output$summaryCaption12 <- renderText({
+                paste("Median Absolute Deviation:", round(mad(getDataset1()), digits = 2))
+        })
+
+        output$summaryCaption13 <- renderText({
+                paste("Standard Error:", round(std(getDataset1()), digits = 2))
         })
 
 
