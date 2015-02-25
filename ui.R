@@ -78,7 +78,9 @@ tabPanel("Overview",
                                                   align = "center")),
                                  
                                  tabPanel("Summary",
-                                          verbatimTextOutput("summaryView")),
+                                          verbatimTextOutput("summaryView"),
+                                          tags$div(textOutput("summaryCaption"), 
+                                                   align = "left")),
                                  
                                  tabPanel("Raw Data",
                                           tags$br(),

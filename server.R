@@ -26,6 +26,7 @@ suppressPackageStartupMessages(c(
         library(RColorBrewer),
         library(googleVis),
         library(BreakoutDetection),
+        library(psych),
         library(rmarkdown)))
 
 source("data.R")
@@ -191,8 +192,10 @@ getDataset1 <- reactive({
                 input$tabOne, "website.",
                 "The mean for this website is at", 
                 round(mean(getDataset1()), digits = 2),
-                "seconds and the standard deviation is",
-                round(sd(getDataset1()), digits = 2),".")
+                "seconds, the standard deviation is",
+                round(sd(getDataset1()), digits = 2),
+                "and the skewness is",
+                round(skewness(getDataset1()), digits = 2),".")
         })
         
         output$histPlot <- renderPlot({
@@ -204,9 +207,36 @@ getDataset1 <- reactive({
 
 ## Generate a summary view
 
-output$summaryView <- renderPrint({
-        summary(getDataset1())
-})
+        output$summaryView <- renderPrint({
+                describe(getDataset1())
+        })
+
+        ## Caption function
+        Mode <- function(x) {
+                ux <- unique(x)
+                ux[which.max(tabulate(match(x, ux)))]
+        }
+
+        std <- function(x) {
+                sd(x)/sqrt(length(x))
+        }
+
+        output$summaryCaption <- renderText({
+                paste("Summary for the", 
+                input$tabOne, "website.",
+                "Minimum:", round(min(getDataset1()), digits = 2),
+                "1st Quartile:", round(quantile(getDataset1(), probs=0.25), digits = 2),
+                "3rd Quartile:", round(quantile(getDataset1(), probs=0.75), digits = 2),
+                "Maximum:", round(max(getDataset1(), probs=0.75), digits = 2),
+                "Median:", round(median(getDataset1()), digits = 2),
+                "Mean:", round(mean(getDataset1()), digits = 2),
+                "Mode:", round(Mode(getDataset1()), digits = 2),
+                "Standard Deviation:", round(sd(getDataset1()), digits = 2),
+                "Skewness:", round(skewness(getDataset1()), digits = 2),
+                "Kurtosis:", round(kurtosis(getDataset1()), digits = 2),
+                "Median Absolute Deviation:", round(mad(getDataset1()), digits = 2),
+                "Standard Error:", round(std(getDataset1()), digits = 2))
+        })
 
 
 ## Tabset 5
