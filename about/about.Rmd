@@ -191,12 +191,13 @@ The view of the data in a calendar allows to inspect the respective values per d
 ### Used R Packages
 
 ```{r, eval=FALSE}
+library(shiny)
+library(shinyIncubator)
+library(shinythemes)
+library(lubridate)
 library(zoo)
 library(timeDate)
 library(forecast)
-library(lubridate)
-library(shiny)
-library(shinyIncubator)
 library(knitr)
 library(reshape)
 library(DT)

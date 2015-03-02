@@ -7,7 +7,7 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-02-26 00:30:12 CET"
+## [1] "2015-03-02 19:46:40 CET"
 ```
 
 ***
@@ -188,12 +188,13 @@ The view of the data in a calendar allows to inspect the respective values per d
 
 
 ```r
+library(shiny)
+library(shinyIncubator)
+library(shinythemes)
+library(lubridate)
 library(zoo)
 library(timeDate)
 library(forecast)
-library(lubridate)
-library(shiny)
-library(shinyIncubator)
 library(knitr)
 library(reshape)
 library(DT)
@@ -224,7 +225,7 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## loaded via a namespace (and not attached):
-## [1] digest_0.6.8    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6
+## [1] digest_0.6.8    evaluate_0.5.5  formatR_1.0     htmltools_0.2.8
 ## [5] knitr_1.9       rmarkdown_0.5.1 stringr_0.6.2   tools_3.1.2    
 ## [9] yaml_2.1.13
 ```
