@@ -7,7 +7,7 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-03-02 19:46:40 CET"
+## [1] "2015-03-04 18:56:11 CET"
 ```
 
 ***
@@ -53,7 +53,7 @@ In simple but appropriate words:
 
 > In statistics, exploratory data analysis (EDA) is an approach to analyzing data sets to summarize their main characteristics, often with visual methods. [(wikipedia.org)][7]
 
-The line chart gives an first impression of the selected data set, while the boxplot shows the median, quartiles, outliers and also gives a first view on the respective distribution. Finally the histogram enables a clear presentation of the distribution of the selected data set. At least the raw data tab makes it possible to check every single value of the data set.
+The line chart gives an first impression of the selected data set, while the boxplot shows the median, quartiles, outliers and also gives a first view on the respective distribution. The summary lists all relevant results for a discriptive statistical analysis. Finally the histogram enables a clear presentation of the distribution of the selected data set. At least the raw data tab makes it possible to check every single value of the data set.
 
 ***
 
