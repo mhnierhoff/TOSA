@@ -26,7 +26,9 @@ suppressPackageStartupMessages(c(
         library(RColorBrewer),
         library(googleVis),
         library(BreakoutDetection),
-        library(tseries),
+        library(xts),
+        library(dygraphs),
+        library(magrittr),
         library(rmarkdown)))
 
 
@@ -64,7 +66,7 @@ tabPanel("Overview",
                                  tabPanel("Line Chart", 
                                           plotOutput("linePlot"),
                                           tags$hr(),
-                                          plotOutput("clinePlot")),
+                                          dygraphOutput("clinePlot")),
                                  
                                  tabPanel("Boxplot",
                                           plotOutput("boxPlot"),
