@@ -7,7 +7,7 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-03-16 13:01:50 CET"
+## [1] "2015-04-09 23:40:12 CEST"
 ```
 
 ***
@@ -215,8 +215,9 @@ sessionInfo()
 ```
 
 ```
-## R version 3.1.2 (2014-10-31)
+## R version 3.1.3 (2015-03-09)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## Running under: OS X 10.10.2 (Yosemite)
 ## 
 ## locale:
 ## [1] de_DE.UTF-8/de_DE.UTF-8/de_DE.UTF-8/C/de_DE.UTF-8/de_DE.UTF-8
@@ -225,8 +226,8 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## loaded via a namespace (and not attached):
-## [1] digest_0.6.8    evaluate_0.5.5  formatR_1.0     htmltools_0.2.8
-## [5] knitr_1.9       rmarkdown_0.5.1 stringr_0.6.2   tools_3.1.2    
+## [1] digest_0.6.8    evaluate_0.5.5  formatR_1.1     htmltools_0.2.8
+## [5] knitr_1.9       rmarkdown_0.5.1 stringr_0.6.2   tools_3.1.3    
 ## [9] yaml_2.1.13
 ```
 
